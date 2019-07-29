@@ -99,6 +99,8 @@ type Config struct {
 	// User password. Defaults to "anonymous" if required.
 	Password string
 
+	Proxy string
+
 	// Maximum number of FTP connections to open per-host. Defaults to 5. Keep in
 	// mind that FTP servers typically limit how many connections a single user
 	// may have open at once, so you may need to lower this if you are doing

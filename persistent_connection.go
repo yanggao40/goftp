@@ -406,7 +406,15 @@ func (pconn *persistentConn) prepareDataConn() (func() (net.Conn, error), error)
 		}
 
 		pconn.debug("opening data connection to %s", host)
-		dc, netErr := net.DialTimeout("tcp", host, pconn.config.Timeout)
+		var (
+			dc net.Conn
+			netErr error
+		)
+		if pconn.config.Proxy == "" {
+			dc, netErr = net.DialTimeout("tcp", host, pconn.config.Timeout)
+		} else {
+			dc, netErr = GetProxyConn(pconn.config.Proxy, host)
+		}
 
 		if netErr != nil {
 			var isTemporary bool
